@@ -1,0 +1,48 @@
+name: CI
+
+on:
+    push:
+        branches:
+            - main
+            - dev
+
+    schedule:
+        # https://crontab.guru. Run everyday at 0:00AM UTC, i.e. 08:00AM Beijing, i.e. 08:00PM Montreal (summer time)
+        - cron: "0 0 * * *"
+
+jobs:
+    testing:
+        runs-on: ${{ matrix.os }}
+        defaults:
+            run:
+                shell: bash {0}
+        strategy:
+            fail-fast: false
+            matrix:
+                os: [ubuntu-latest, windows-latest, macOS-latest]
+                python-version: ["3.7", "3.9", "3.10"]
+
+        steps:
+            - uses: actions/checkout@v3
+
+            - uses: actions/setup-python@v4
+              with:
+                python-version: ${{ matrix.python-version }}
+                check-latest: true
+                cache: pip
+                cache-dependency-path: |
+                  requirements.txt
+
+            - name: Install  dependencies
+              run: |
+                  pip install -r requirements.txt
+                  pip install pytest-cov
+
+            - name: Fetch the test environment details
+              run: |
+                  which python
+                  pip list
+
+            - name: Test with pytest
+              run: |
+                  pytest
