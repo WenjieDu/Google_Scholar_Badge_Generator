@@ -38,6 +38,14 @@ def fetch_selected_element_from_page(selector: str, page_url: str) -> bs4.elemen
     page = requests.get(page_url).text
     soup = BeautifulSoup(page, "html.parser")
     selected = soup.select_one(selector)
+    if selected is None:
+        print(soup.prettify())
+        raise RuntimeError(
+            f"Cannot find the element selected by {selector} on {page_url}. "
+            f"This may caused by an invalid selector, an invalid page_url. "
+            f"The reason also may be your IP address got blocked by the server. "
+            f"The fetch html page got printed above, please check it to find more details."
+        )
     return selected
 
 
