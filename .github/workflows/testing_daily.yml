@@ -45,4 +45,4 @@ jobs:
 
             - name: Test with pytest
               run: |
-                  pytest
+                  pytest gsbg/tests/gsbg.py
