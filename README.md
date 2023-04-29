@@ -4,6 +4,24 @@
 on Google Scholar. Therefore, I create this repository to build us such a tool.
 Need citation badges but cannot find a proper tool? Try GSBG!
 
+
+## ❖ Installation
+You can install GSBG via pip: `pip install gsbg`, or from the latest source code: 
+`pip install https://github.com/WenjieDu/Google_Scholar_Badge_Generator/archive/main.zip`.
+
+## ❖ Usage
+Apart from the below examples, you can also integrate GSBG with GitHub workflows to automatically generate badges 
+for your articles/profiles, save them in your repo, and update them periodically.
+Please take a look at [https://github.com/WenjieDu/WenjieDu](https://github.com/WenjieDu/WenjieDu) for an example.
+The workflow [.github/workflows/gene_citation_badges.yml](https://github.com/WenjieDu/WenjieDu/blob/main/.github/workflows/gene_citation_badges.yml)
+will regularly run the generating script [scripts/gene_google_scholar_badges.py](https://github.com/WenjieDu/WenjieDu/blob/main/scripts/gene_google_scholar_badges.py)
+to maintain the badges under [figs/citation_badges](https://github.com/WenjieDu/WenjieDu/tree/main/figs/citation_badges).
+
+You can fork my repo and modify the script and the workflow to fit your own needs.
+If you meet any question, please [raise an issue](https://github.com/WenjieDu/Google_Scholar_Badge_Generator/issues).
+I'll try my best to help.
+
+
 ```python
 import gsbg
 
