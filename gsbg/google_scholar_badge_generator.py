@@ -9,10 +9,8 @@ import os
 import random
 import warnings
 
-import bs4
 import requests
-from bs4 import BeautifulSoup
-
+from bs4 import BeautifulSoup, element
 
 MIRROR_SITES = {
     "scholar.lanfanshu.cn": "True",  # 'True' means this mirror site is in Chinese
@@ -80,7 +78,7 @@ def apply_mirror_site(link):
     return new_link
 
 
-def fetch_selected_element_from_page(selector: str, page_url: str) -> bs4.element.Tag:
+def fetch_selected_element_from_page(selector: str, page_url: str) -> element.Tag:
     """Fetch the selected element from the given page.
 
     Parameters

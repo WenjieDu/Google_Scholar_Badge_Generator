@@ -28,7 +28,7 @@ jobs:
         cache: 'pip' # caching pip dependencies
     - name: Install dependencies
       run: |
-        pip install build beautifulsoup4 requests
+        pip install build beautifulsoup4 bs4 requests
     - name: Fetch the test environment details
       run: |
         which python
