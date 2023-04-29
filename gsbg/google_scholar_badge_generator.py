@@ -17,7 +17,7 @@ MIRROR_SITES = {
 }
 
 ARTICLE_CITATION_SELECTOR = (
-    "#gsc_oci_table > div:nth-child(6) > div.gsc_oci_value > div:nth-child(1) > a"
+    "#gsc_oci_table > div > div.gsc_oci_value > div > a"
 )
 PROFILE_CITATION_SELECTOR = "#gsc_rsb_st > tbody > tr:nth-child(1) > td:nth-child(2)"
 
