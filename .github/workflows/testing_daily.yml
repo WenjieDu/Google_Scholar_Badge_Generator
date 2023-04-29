@@ -1,14 +1,14 @@
 name: CI
 
 on:
-    push:
-        branches:
-            - main
-            - dev
-
-    schedule:
-        # https://crontab.guru. Run everyday at 0:00AM UTC, i.e. 08:00AM Beijing, i.e. 08:00PM Montreal (summer time)
-        - cron: "0 0 * * *"
+#    push:
+#        branches:
+#            - main
+#            - dev
+#
+#    schedule:
+#        # https://crontab.guru. Run everyday at 0:00AM UTC, i.e. 08:00AM Beijing, i.e. 08:00PM Montreal (summer time)
+#        - cron: "0 0 * * *"
 
 jobs:
     testing:
