@@ -1,6 +1,6 @@
 # GoogleScholar Badge Generator
 
-[shield.io](https://shield.io) does not provide an API to help generate citation badges of articles/profiles 
+[shields.io](https://shields.io) does not provide an API to help generate citation badges of articles/profiles 
 on Google Scholar. Therefore, I create this repository to build us such a tool.
 Need citation badges but cannot find a proper tool? Try GSBG!
 
