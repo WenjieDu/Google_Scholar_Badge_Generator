@@ -39,8 +39,8 @@ setup(
         "beautifulsoup4",
         "requests",
     ],
-    python_requires=">=3",
-    setup_requires=["setuptools>=38.6.0"],
+    python_requires=">=3.5",
+    setup_requires=["setuptools>=64.0"],
     classifiers=[
         "Development Status :: 4 - Beta",
         "Intended Audience :: Developers",
