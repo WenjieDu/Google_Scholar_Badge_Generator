@@ -160,8 +160,8 @@ def gene_citation_badge_svg(
 
         link = f"https://img.shields.io/badge/Citations-{citation_num}-blue.svg?logo=google-scholar"
 
-        os.makedirs(path_to_save)
-        if svg_name.endswith(".svg"):
+        os.makedirs(path_to_save, exist_ok=True)
+        if not svg_name.endswith(".svg"):
             svg_name = f"{svg_name}.svg"
         saving_path = os.path.join(path_to_save, svg_name)
         with open(saving_path, "wb") as file_handle:
