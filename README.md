@@ -2,8 +2,9 @@
 
 [shields.io](https://shields.io) does not provide an API to help generate citation badges of articles/profiles 
 on Google Scholar. Therefore, I create this repository to build us such a tool.
-Need citation badges but cannot find a proper tool? Try GSBG!
+Need citation badges but cannot find a proper tool? Try GSBG! You can even make yourself a GoogleScholar version of shields.io with GitHub actions! Take a look at [Usage](-usage) below. 
 
+Please star🌟 this repo to help others notice GSBG if you think it is useful. Thank you!
 
 ## ❖ Installation
 You can install GSBG via pip: `pip install gsbg`, or from the latest source code: 
