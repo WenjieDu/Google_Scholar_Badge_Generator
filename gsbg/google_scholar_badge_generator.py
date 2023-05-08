@@ -5,6 +5,7 @@ Storing the functions of GSBG.
 # Created by Wenjie Du <wenjay.du@gmail.com>
 # License: GLP-v3
 
+import logging
 import os
 import random
 import warnings
@@ -12,13 +13,16 @@ import warnings
 import requests
 from bs4 import BeautifulSoup, element
 
+logging.basicConfig(
+    level=logging.INFO, format="%(asctime)s [%(levelname)s]: %(message)s"
+)
+
+
 MIRROR_SITES = {
     "scholar.lanfanshu.cn": "True",  # 'True' means this mirror site is in Chinese
 }
 
-ARTICLE_CITATION_SELECTOR = (
-    "#gsc_oci_table > div > div.gsc_oci_value > div > a"
-)
+ARTICLE_CITATION_SELECTOR = "#gsc_oci_table > div > div.gsc_oci_value > div > a"
 PROFILE_CITATION_SELECTOR = "#gsc_rsb_st > tbody > tr:nth-child(1) > td:nth-child(2)"
 
 USER_AGENTS = [
@@ -69,12 +73,12 @@ def get_header():
     }
 
 
-def apply_mirror_site(link):
+def apply_mirror_sites(link):
     site_to_use = random.choice(list(MIRROR_SITES.keys()))
-    print(f"Applying the mirror site '{site_to_use}'")
+    logging.info(f"Applying the mirror site '{site_to_use}'")
     os.environ["GS_MIRROR_SITE_IN_CHINESE"] = MIRROR_SITES[site_to_use]
     new_link = link.replace("scholar.google.com", site_to_use)
-    print(f"The updated URL is: {new_link}")
+    logging.info(f"The updated URL is: {new_link}")
     return new_link
 
 
@@ -95,14 +99,14 @@ def fetch_selected_element_from_page(selector: str, page_url: str) -> element.Ta
         The element selected by the given selector on the given page.
 
     """
-    if os.getenv("APPLY_MIRROR_SITE", "False") == "True":
-        page_url = apply_mirror_site(page_url)
+    if os.getenv("APPLY_MIRROR_SITES", "False") == "True":
+        page_url = apply_mirror_sites(page_url)
 
     page = requests.get(page_url, headers=get_header()).text
     soup = BeautifulSoup(page, "html.parser")
     selected = soup.select_one(selector)
     if selected is None:
-        print(soup.prettify())
+        logging.error(soup.prettify())
         raise RuntimeError(
             f"Cannot find the element selected by {selector} on {page_url}. "
             f"This may caused by an invalid selector, an invalid page_url. "
@@ -233,6 +237,6 @@ def gene_citation_badge_svg(
         with open(saving_path, "wb") as file_handle:
             file_handle.write(requests.get(link).content)
     except Exception as e:
-        print("Generating failed.")
+        logging.error("Generating failed.")
         raise e
-    print(f"Saved to {saving_path}. Please check out your badge there.")
+    logging.info(f"Saved to {saving_path}. Please check out your badge there.")

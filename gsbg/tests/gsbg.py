@@ -18,7 +18,7 @@ from gsbg import (
 
 
 class TestCRLI(unittest.TestCase):
-    os.environ["APPLY_MIRROR_SITE"] = "True"  # enable APPLY_MIRROR_SITE
+    os.environ["APPLY_MIRROR_SITES"] = "True"  # enable APPLY_MIRROR_SITES
 
     article_link = (
         "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=j9qvUg0AAAAJ"

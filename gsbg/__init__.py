@@ -13,7 +13,7 @@ from gsbg.google_scholar_badge_generator import (
     gene_citation_badge_svg,
 )
 
-__version__ = "0.1.1"
+__version__ = "0.1.2"
 
 __all__ = [
     "fetch_article_citation_num",
