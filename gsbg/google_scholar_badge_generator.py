@@ -17,7 +17,6 @@ logging.basicConfig(
     level=logging.INFO, format="%(asctime)s [%(levelname)s]: %(message)s"
 )
 
-
 MIRROR_SITES = {
     "scholar.lanfanshu.cn": "True",  # 'True' means this mirror site is in Chinese
 }
@@ -63,7 +62,7 @@ USER_AGENTS = [
 ]
 
 
-def get_header():
+def get_random_header():
     return {
         "User-Agent": random.choice(USER_AGENTS),
         "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
@@ -74,6 +73,7 @@ def get_header():
 
 
 def apply_mirror_sites(link):
+    logging.info(f"Note that information on mirror sites may not be updated in time.")
     site_to_use = random.choice(list(MIRROR_SITES.keys()))
     logging.info(f"Applying the mirror site '{site_to_use}'")
     os.environ["GS_MIRROR_SITE_IN_CHINESE"] = MIRROR_SITES[site_to_use]
@@ -99,10 +99,9 @@ def fetch_selected_element_from_page(selector: str, page_url: str) -> element.Ta
         The element selected by the given selector on the given page.
 
     """
-    if os.getenv("APPLY_MIRROR_SITES", "False") == "True":
-        page_url = apply_mirror_sites(page_url)
+    logging.info(f"Fetching info from the given URL {page_url} ...")
 
-    page = requests.get(page_url, headers=get_header()).text
+    page = requests.get(page_url, headers=get_random_header()).text
     soup = BeautifulSoup(page, "html.parser")
     selected = soup.select_one(selector)
     if selected is None:
@@ -113,6 +112,30 @@ def fetch_selected_element_from_page(selector: str, page_url: str) -> element.Ta
             f"The reason also may be your IP address got blocked by the server. "
             f"The fetch html page got printed above, please check it to find more details."
         )
+    return selected
+
+
+def fetch_selected_element_from_gs_site(selector: str, page_url: str) -> element.Tag:
+    """Fetch the selected element from the given page.
+
+    Parameters
+    ----------
+    selector : str,
+        A valid CSS selector.
+
+    page_url : str,
+        A valid URL, should contain the element selected by the given selector.
+
+    Returns
+    -------
+    selected : bs4.element.Tag,
+        The element selected by the given selector on the given page.
+
+    """
+    if os.getenv("APPLY_MIRROR_SITES", "False") == "True":
+        page_url = apply_mirror_sites(page_url)
+
+    selected = fetch_selected_element_from_page(selector, page_url)
     return selected
 
 
@@ -130,7 +153,7 @@ def fetch_profile_citation_num(profile_link: str) -> int:
         The total citation number of the given profile.
 
     """
-    citations_all = fetch_selected_element_from_page(
+    citations_all = fetch_selected_element_from_gs_site(
         selector=PROFILE_CITATION_SELECTOR,
         page_url=profile_link,
     )
@@ -153,14 +176,14 @@ def fetch_article_citation_num(article_link: str) -> int:
 
     """
 
-    cited_by_num = fetch_selected_element_from_page(
+    citation_num = fetch_selected_element_from_gs_site(
         selector=ARTICLE_CITATION_SELECTOR,
         page_url=article_link,
     )
     if os.getenv("GS_MIRROR_SITE_IN_CHINESE", "False") == "True":
-        article_citation_number = int(cited_by_num.text.split("被引用次数：")[-1])
+        article_citation_number = int(citation_num.text.split("被引用次数：")[-1])
     else:
-        article_citation_number = int(cited_by_num.text.split("Cited by ")[-1])
+        article_citation_number = int(citation_num.text.split("Cited by ")[-1])
     return article_citation_number
 
 
@@ -199,7 +222,7 @@ def gene_citation_badge_link(link: str, link_type: str) -> str:
 
 
 def gene_citation_badge_svg(
-    link: str, link_type: str, svg_name: str, path_to_save: str
+        link: str, link_type: str, svg_name: str, path_to_save: str
 ) -> None:
     """Generate a badge for the given link with the given name to the given path.
 
